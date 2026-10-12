@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kilpa-ajo 1</title>
+  <style>*{box-sizing:border-box;margin:0;padding:0}body{background:#000;justify-content:center;align-items:center;height:100vh;display:flex;overflow:hidden}canvas{display:block}#fullscreenBtn{color:#ccc;cursor:pointer;z-index:10;background:#000000b3;border:1px solid #555;padding:8px 14px;font-size:15px;position:fixed;bottom:14px;right:14px}#fullscreenBtn:hover{color:#fff;border-color:#aaa}#restartBtn{color:#ccc;cursor:pointer;z-index:10;background:#000000b3;border:1px solid #555;padding:8px 14px;font-size:15px;position:fixed;bottom:14px;left:14px}#restartBtn:hover{color:#fff;border-color:#aaa}</style>
+  <script type="module" crossorigin src="/assets/index-Bn2VHeqG.js"></script>
+</head>
+<body>
+  <canvas id="peliCanvas"></canvas>
+  <button id="restartBtn">↺ Valikkoon</button>
+  <button id="fullscreenBtn">⛶ Koko näyttö</button>
+  <script>
+    const btn = document.getElementById('fullscreenBtn');
+    btn.addEventListener('click', () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+        btn.textContent = '⛶ Koko näyttö';
+      } else {
+        document.documentElement.requestFullscreen();
+        btn.textContent = '✕ Poistu';
+      }
+    });
+  </script>
+</body>
+</html>
