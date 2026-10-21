@@ -1,9 +1,9 @@
 // Tehty käännöksessä (offline.js). Tallentaa pelin puhelimen muistiin, jotta se toimii ilman verkkoa.
-const CACHE = "kilpa-ajo-1-a9a177a50d60";
+const CACHE = "kilpa-ajo-1-27444951c4ea";
 const FILES = [
   "./",
   "./LICENSES.txt",
-  "./assets/index-CEe-exHO.js",
+  "./assets/index-BM4SXoqV.js",
   "./icon-180.png",
   "./icon-192.png",
   "./icon-512.png",
