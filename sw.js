@@ -1,9 +1,9 @@
 // Tehty käännöksessä (offline.js). Tallentaa pelin puhelimen muistiin, jotta se toimii ilman verkkoa.
-const CACHE = "kilpa-ajo-1-9079ce23b307";
+const CACHE = "kilpa-ajo-1-43724cd9d07a";
 const FILES = [
   "./",
   "./LICENSES.txt",
-  "./assets/index-Dz0x26y_.js",
+  "./assets/index-C8hMts4p.js",
   "./icon-180.png",
   "./icon-192.png",
   "./icon-512.png",
@@ -23,18 +23,21 @@ self.addEventListener('activate', event => {
 });
 
 // Pelin tiedostot tulevat muistista. Sivun avaus kokeilee ensin verkkoa (uusin versio),
-// ja ilman verkkoa se näyttää muistissa olevan pelin.
+// ja ilman verkkoa tai hitaalla verkolla (yli NETWORK_TIMEOUT ms) se näyttää muistissa olevan pelin.
+const NETWORK_TIMEOUT = 3000;
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
   if (request.mode === 'navigate') {
-    event.respondWith(fetch(request)
-      .then(response => {
-        const copy = response.clone();
-        if (response.ok) caches.open(CACHE).then(cache => cache.put('./', copy));
-        return response;
-      })
-      .catch(() => caches.match('./', { cacheName: CACHE })));
+    const fromNetwork = fetch(request).then(response => {
+      const copy = response.clone();
+      if (response.ok) caches.open(CACHE).then(cache => cache.put('./', copy));
+      return response;
+    });
+    const fromCache = () => caches.match('./', { cacheName: CACHE });
+    const slow = new Promise(resolve => setTimeout(() => resolve(null), NETWORK_TIMEOUT));
+    event.respondWith(Promise.race([fromNetwork.catch(() => null), slow])
+      .then(response => response ?? fromCache().then(hit => hit ?? fromNetwork)));
     return;
   }
   event.respondWith(caches.match(request, { cacheName: CACHE }).then(hit => hit ?? fetch(request)));
