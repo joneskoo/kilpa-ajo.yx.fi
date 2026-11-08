@@ -1,9 +1,12 @@
 // Tehty käännöksessä (offline.js). Tallentaa pelin puhelimen muistiin, jotta se toimii ilman verkkoa.
-const CACHE = "kilpa-ajo-1-b3c155b3a9b0";
+const CACHE = "kilpa-ajo-1-1404807f3c00";
 const FILES = [
   "./",
   "./LICENSES.txt",
-  "./assets/index-BNUx153p.js",
+  "./assets/drift-ki4bghfV.js",
+  "./assets/main-B0Xz1pl-.js",
+  "./assets/sound-B_JP9I0r.js",
+  "./drift/",
   "./icon-180.png",
   "./icon-192.png",
   "./icon-512.png",
@@ -29,12 +32,14 @@ self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
   if (request.mode === 'navigate') {
+    // Sivu tallennetaan omalla osoitteellaan (F1 './', drift-peli './drift/'), etteivät pelit sekoitu
+    const page = './' + new URL(request.url).pathname.slice(new URL(self.registration.scope).pathname.length);
     const fromNetwork = fetch(request).then(response => {
       const copy = response.clone();
-      if (response.ok) caches.open(CACHE).then(cache => cache.put('./', copy));
+      if (response.ok) caches.open(CACHE).then(cache => cache.put(page, copy));
       return response;
     });
-    const fromCache = () => caches.match('./', { cacheName: CACHE });
+    const fromCache = () => caches.match(page, { cacheName: CACHE });
     const slow = new Promise(resolve => setTimeout(() => resolve(null), NETWORK_TIMEOUT));
     event.respondWith(Promise.race([fromNetwork.catch(() => null), slow])
       .then(response => response ?? fromCache().then(hit => hit ?? fromNetwork)));
