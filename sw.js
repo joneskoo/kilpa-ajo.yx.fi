@@ -1,11 +1,11 @@
 // Tehty käännöksessä (offline.js). Tallentaa pelin puhelimen muistiin, jotta se toimii ilman verkkoa.
-const CACHE = "kilpa-ajo-1-5405b1ee0925";
+const CACHE = "kilpa-ajo-1-ecb920780583";
 const FILES = [
   "./",
   "./LICENSES.txt",
-  "./assets/drift-CX81Vsxc.js",
-  "./assets/main-0oRoBXKb.js",
-  "./assets/sound-pfDARXQx.js",
+  "./assets/drift-DnieaZIz.js",
+  "./assets/main-BeIzG3Wh.js",
+  "./assets/sound-BeDWClkK.js",
   "./drift/",
   "./drift/manifest.webmanifest",
   "./icon-180.png",
